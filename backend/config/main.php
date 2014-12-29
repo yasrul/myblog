@@ -12,6 +12,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [],
+    'homeUrl'=>'/myblog/administrator',
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',
@@ -25,6 +26,13 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'urlManager' => [
+            'enablePrettyUrl'=>true,
+            'showScriptName'=>false,
+        ],
+        'request'=> [
+            'baseUrl'=>'/myblog/administrator',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

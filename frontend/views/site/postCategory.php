@@ -20,10 +20,10 @@ $this->title = 'My Yii Application';
             echo '<h2>'.$post->title.'</h2>';
             echo '<p>'.substr($post->content, 0, 300).'...</p>';
             echo '<p><small>Post By '.$post->user->username.' at '.date('F j,Y,g:i a',$post->create_time).'</small></p>';
-            echo '<p><a class="btn btn-default" href="'.\Yii::$app->urlManager->createUrl(['site/post-single', 'id'=>$post->id]).'">Read More &raquo</a></p>';
+            echo '<p><a class="btn btn-default" href="'.\Yii::$app->urlManager->createUrl(['site/post-single', 'id'=>$post->id]).'">Read more &raquo;</a></p>';
             echo '</div>';
             }
-            ?>           
+            ?>
         </div>
         <div class="col-lg-3">
             <h2>Category</h2>
@@ -38,4 +38,5 @@ $this->title = 'My Yii Application';
             ?>
         </div>
     </div>
+
 </div>

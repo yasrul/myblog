@@ -26,6 +26,7 @@
         "yiisoft/yii2-faker": "*"
     },
     "config": {
+	"vendor-dir":"/home/yasrul/projects/yii2",
         "process-timeout": 1800
     },
     "extra": {

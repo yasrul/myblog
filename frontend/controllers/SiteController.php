@@ -67,7 +67,73 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $posts = \common\models\Post::find()
+                ->where(['status'=>1])
+                ->orderBy('id DESC')
+                ->limit(3)
+                ->all();
+        $categories = \common\models\Category::find()
+                ->orderBy('name ASC')
+                ->all();
+        
+        return $this->render('index',['posts'=>$posts, 'categories'=>$categories]);
+    }
+    
+    public function actionPostCategory($id) {
+        $posts = \common\models\Post::find()
+                ->where(['status'=>1, 'category_id'=>$id])
+                ->orderBy('id DESC')
+                ->limit(5)
+                ->all();
+        
+        $categories = \common\models\Category::find()
+                ->orderBy('name ASC')
+                ->all();
+        
+        return $this->render('postCategory', [
+            'posts'=>$posts,
+            'categories'=>$categories,
+            ]);
+    }
+    
+    public function actionPostSingle($id) {
+        $post = \common\models\Post::find()
+                ->where(['status'=>1, 'id'=>$id])
+                ->one();
+        
+        $categories = \common\models\Category::find()
+                ->orderBy('name ASC')
+                ->all();
+        $comments = \common\models\Comment::find()
+                ->where(['status'=>1, 'post_id'=>$id])
+                ->orderBy('id DESC')
+                ->all();
+        $model = new \common\models\Comment();
+        if ($model->load(\Yii::$app->request->post())) {
+            $model->post_id=$id;
+            $model->status=0;
+            $model->create_time=time();
+            if (!\Yii::$app->user->isGuest) {
+                $model->author=\Yii::$app->user->identity->username;
+                $model->email=\Yii::$app->user->identity->email;
+                $model->status=1;
+            }
+            if($model->validate()) {
+                if($model->save()) {
+                    if($model->status=1) {
+                        \Yii::$app->session->setFlash('Success', 'Comment saved');
+                    }else {
+                        \Yii::$app->session->setFlash('Success', 'Comment saved, waiting moderation');
+                    }
+                }
+            }
+        }
+        return $this->render('postSingle', [
+            'post'=>$post,
+            'categories'=>$categories,
+            'comments'=>$comments,
+            'model'=>$model,
+        ]);
     }
 
     public function actionLogin()

@@ -11,6 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'homeUrl'=>'/myblog',
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',
@@ -24,6 +25,13 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'urlManager' => [
+            'enablePrettyUrl'=>true,
+            'showScriptName'=>false,
+        ],
+        'request'=> [
+            'baseUrl'=>'/myblog',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
